@@ -4,8 +4,7 @@ project(hello-world C)
 set(CMAKE_C_STANDARD 90)
 
 # SmartCard support options
-option(PROTOCOL_MULTOS "MultOS version" OFF)
-
+option(PROTOCOL_MULTOS "MultOS version" ON)
 
 # Custom CMake Modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
@@ -16,7 +15,6 @@ find_package(MCL REQUIRED) # MCL package
 if (PROTOCOL_MULTOS)
   find_package(PCSC REQUIRED) # required to communicate with SmartCards
 endif ()
-
 
 # Project-level includes
 include_directories(. ./include ./lib ./src)
