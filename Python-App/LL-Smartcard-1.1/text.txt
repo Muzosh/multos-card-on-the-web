@@ -1,0 +1,11 @@
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__init__.py
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/card.py
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/parser.py
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/apdu.py
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/helper.py
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__pycache__/__init__.cpython-310.pyc
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__pycache__/card.cpython-310.pyc
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__pycache__/parser.cpython-310.pyc
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__pycache__/apdu.cpython-310.pyc
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/llsmartcard/__pycache__/helper.cpython-310.pyc
+/Users/petr/Developer/Repos/multos-card-for-nextcloud/venv/lib/python3.10/site-packages/LLSmartcard-1.0-py3.10.egg-info

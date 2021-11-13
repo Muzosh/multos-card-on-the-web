@@ -1,11 +1,4 @@
 {
-    "files.associations": {
-        "*.log": "json",
-        "*.module": "php",
-        "system.h": "c",
-        "setup.h": "c",
-        "stdio.h": "c",
-        "apdu.h": "c"
-    },
-    "cmake.configureOnOpen": true
+    "python.pythonPath": "venv/bin/python",
+    "python.terminal.activateEnvironment": true
 }

@@ -1,1 +1,0 @@
-# multos-card-for-nextcloud
