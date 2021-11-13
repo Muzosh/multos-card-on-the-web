@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="d2287244-4ff8-461a-8806-d9fb59a810d5" name="MULTOS" defaultType="TOOL">
+      <configuration id="52be70f6-ba01-4b9e-85f1-4854e5f4935d" name="MULTOS" toolchainName="Default">
+        <build type="TOOL">
+          <tool actionId="Tool_External Tools_Build" />
+        </build>
+        <clean type="TOOL">
+          <tool actionId="Tool_External Tools_Clean" />
+        </clean>
+      </configuration>
+    </target>
+  </component>
+</project>

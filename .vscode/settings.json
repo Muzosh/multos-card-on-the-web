@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.log": "json",
+        "*.module": "php",
+        "system.h": "c",
+        "setup.h": "c",
+        "stdio.h": "c"
+    },
+    "cmake.configureOnOpen": true
+}
