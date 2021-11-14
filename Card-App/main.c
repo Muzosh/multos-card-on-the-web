@@ -82,18 +82,20 @@ void main(void)
     switch (INS)
     {
     case INS_GET_RESPONSE:
-        if (!CheckCase(4))
+        if (!CheckCase(DATAIN_DATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
         if (Lc != CHALLENGE_SIZE)
             ExitSW(ISO7816_SW_WRONG_LENGTH);
+        if (Le != HASHSIZE)
+            ExitSW(ISO7816_SW_WRONG_LENGTH);
 
         // TODO: add current key concat
-        SHA1(Le, apdu_data, apdu_data);
+        SHA1(HASHSIZE, apdu_data, apdu_data);
         ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
         break;
 
     case INS_SET_KEY:
-        if (!CheckCase(3))
+        if (!CheckCase(DATAIN_NODATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
         if (Lc != KEYSIZE)
             ExitSW(ISO7816_SW_WRONG_LENGTH);
@@ -102,21 +104,19 @@ void main(void)
         break;
 
     case INS_RESET_KEY:
-        if (!CheckCase(3))
+        if (!CheckCase(NODATAIN_NODATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
-        if (Lc != KEYSIZE)
-            ExitSW(ISO7816_SW_WRONG_LENGTH);
         memcpy(current_key, default_key, KEYSIZE);
         ExitSW(ISO7816_SW_NO_ERROR);
         break;
 
     case INS_GET_CURRENT_KEY:
-        if (!CheckCase(2))
+        if (!CheckCase(NODATAIN_DATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
-        if (Lc != KEYSIZE)
+        if (Le != KEYSIZE)
             ExitSW(ISO7816_SW_WRONG_LENGTH);
         memcpy(apdu_data, current_key, KEYSIZE);
-        ExitSW(ISO7816_SW_NO_ERROR);
+        ExitSWLa(ISO7816_SW_NO_ERROR, KEYSIZE);
         break;
 
 
