@@ -89,7 +89,7 @@ void main(void)
 
         // TODO: add current key concat
         SHA1(Le, apdu_data, apdu_data);
-        ExitSWLa(ISO7816_SW_NO_ERROR, Le);
+        ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
         break;
 
     case INS_SET_KEY:
