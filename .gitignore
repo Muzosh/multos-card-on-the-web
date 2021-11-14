@@ -190,3 +190,7 @@ dmypy.json
 cython_debug/
 
 .DS_Store
+.vscode/settings.json
+Card-App/main.hzo
+Card-App/hello-world.hzx
+Card-App/hello-world.alu
