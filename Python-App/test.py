@@ -38,8 +38,8 @@ class ConsoleCardConnectionObserver(CardConnectionObserver):
 default_key = [0x70, 0x61, 0x73, 0x73, 0x77, 0x6F, 0x72, 0x64, 0x31, 0x32, 0x33, 0x34]
 new_key_to_set = [0x63, 0x69, 0x73, 0x63, 0x6F, 0x32, 0x30, 0x32, 0x31, 0x61, 0x62, 0x63]
 
-# random 52 bytes challenge = 104 hexadecimals
-challenge = [int(x, 16) for x in sliced(secrets.token_hex(104), 2)]
+# random 52 bytes challenge
+challenge = [int(x, 16) for x in sliced(secrets.token_hex(52), 2)]
 
 
 # define the apdus used in this script
@@ -67,9 +67,27 @@ conn.addObserver(ConsoleCardConnectionObserver())
 # the observer will trace on the console
 conn.connect()
 
+# Select application
 response, sw1, sw2 = conn.transmit(SELECTAPP)
+
+# Reset key for testing
+response, sw1, sw2 = conn.transmit(RESET_KEY)
+
+# Get current key and ensure it's the same as default key
 response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
+assert response == default_key
+
+# Set new key, get current and ensure it's the same as newly set key
 response, sw1, sw2 = conn.transmit(SET_KEY)
+response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
+assert response == new_key_to_set
 
+# Reset key to default and ensure it's the same as current key
+response, sw1, sw2 = conn.transmit(RESET_KEY)
+response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
+assert response == default_key
 
-exit()
+# Check challenge-response
+response, sw1, sw2 = conn.transmit(GET_RESPONSE)
+
+print("Finished successfully!")

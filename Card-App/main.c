@@ -90,7 +90,7 @@ void main(void)
             ExitSW(ISO7816_SW_WRONG_LENGTH);
 
         // TODO: add current key concat
-        SHA1(HASHSIZE, apdu_data, apdu_data);
+        SHA1(Lc , apdu_data, apdu_data);
         ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
         break;
 
