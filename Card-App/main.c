@@ -22,7 +22,7 @@
 #pragma attribute("dir", "61 0d 4f 04 f0 00 00 01 50 05 68 77 61 70 70")
 
 #define CLA_APP 0x80
-#define INS_GET_RESPONSE 0x10
+#define INS_GET_HASH 0x10
 #define INS_SET_KEY 0x20
 #define INS_RESET_KEY 0x30
 #define INS_GET_CURRENT_KEY 0x40
@@ -65,7 +65,7 @@ unsigned char apdu_data[APDU_L_MAX];
 
 /// Session values - RAM (Dynamic memory)
 #pragma melsession
-unsigned char hash_result[KEYSIZE+CHALLENGE_SIZE];
+unsigned char hash_input[KEYSIZE+CHALLENGE_SIZE];
 
 /// Static values - EEPROM (Static memory)
 #pragma melstatic
@@ -81,7 +81,7 @@ void main(void)
 
     switch (INS)
     {
-    case INS_GET_RESPONSE:
+    case INS_GET_HASH:
         if (!CheckCase(DATAIN_DATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
         if (Lc != CHALLENGE_SIZE)
@@ -89,8 +89,9 @@ void main(void)
         // if (Le != HASHSIZE)
         //     ExitSW(ISO7816_SW_WRONG_LENGTH);
 
-        // TODO: add current key concat
-        SHA1(Lc, apdu_data, apdu_data);
+        memcpy(hash_input, apdu_data, CHALLENGE_SIZE);
+        memcpy(hash_input+CHALLENGE_SIZE, current_key, KEYSIZE);
+        SHA1(Lc+KEYSIZE, apdu_data, hash_input);
 
         // ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
         ExitLa(HASHSIZE);
