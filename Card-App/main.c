@@ -86,12 +86,14 @@ void main(void)
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
         if (Lc != CHALLENGE_SIZE)
             ExitSW(ISO7816_SW_WRONG_LENGTH);
-        if (Le != HASHSIZE)
-            ExitSW(ISO7816_SW_WRONG_LENGTH);
+        // if (Le != HASHSIZE)
+        //     ExitSW(ISO7816_SW_WRONG_LENGTH);
 
         // TODO: add current key concat
-        SHA1(Lc , apdu_data, apdu_data);
-        ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
+        SHA1(Lc, apdu_data, apdu_data);
+
+        // ExitSWLa(ISO7816_SW_NO_ERROR, HASHSIZE);
+        ExitLa(HASHSIZE);
         break;
 
     case INS_SET_KEY:
