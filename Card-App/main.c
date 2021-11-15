@@ -28,18 +28,10 @@
 #define INS_GET_CURRENT_KEY 0x40
 
 #define APDU_L_MAX 256
-// #define SHA_DIGEST_LENGTH 20
-// #define SHA_DIGEST_PADDING 1,
 
 #define HASHSIZE 20
 #define KEYSIZE 12
 #define CHALLENGE_SIZE 52
-// #define DESBLOCK 8
-// #define MSGSIZE 255
-// #define MODLEN 128
-// #define EXPLEN 2
-// #define BLOCK 128
-// #define PADSZ 8
 
 // ISO Case Definitions
 #define NODATAIN_NODATAOUT    1

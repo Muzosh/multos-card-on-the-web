@@ -23,26 +23,22 @@ RM := rm -f
 HCL := hcl
 ALU := halugen
 
-CNF_DIR := config
-INC_DIR := include
-LIB_DIR := lib
-
 SRCS := main.c
 OBJS := $(SRCS:%.c=%.hzo)
 
-OUT_HZX := hello-world.hzx
-OUT_ALU := hello-world.alu
+OUT_HZX := nextcloud.hzx
+OUT_ALU := nextcloud.alu
 
-all: clean hello-world.alu
+all: clean nextcloud.alu
 
-hello-world.alu: hello-world.hzx
+nextcloud.alu: nextcloud.hzx
 	$(ALU) $<
 
-hello-world.hzx: $(OBJS)
+nextcloud.hzx: $(OBJS)
 	$(HCL) -g -o $@ $(OBJS)
 
 %.hzo: %.c
-	$(HCL) -I$(CNF_DIR) -I$(INC_DIR) -I$(LIB_DIR) -c -g -o $@ $<
+	$(HCL) -c -g -o $@ $<
 
 clean:
 	$(RM) $(OBJS) $(OUT_HZX) $(OUT_ALU)
