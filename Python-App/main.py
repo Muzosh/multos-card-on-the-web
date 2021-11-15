@@ -127,7 +127,6 @@ def get_current_key():
 
 def set_new_key():
     while True:
-        print("\n\n")
         new_key_to_set = input("Input 12 char long password: ")
 
         if len(new_key_to_set) != 12:
@@ -182,7 +181,9 @@ def authenticate():
 
 
 def mainmenu():
-    main_menu_title = "\n\n\n______________________\nCard communicator\n"
+    main_menu_title = (
+        "______________________\n\n  Card communicator\n______________________"
+    )
     main_menu_items = [
         "[g] Get current key",
         "[s] Set new key",
@@ -209,7 +210,7 @@ def mainmenu():
 
     while not main_menu_exit:
         main_sel = main_menu.show()
-        print("______________________\n\n\n")
+        cls()
 
         if main_sel == 0:
             get_current_key()
@@ -225,4 +226,5 @@ def mainmenu():
 
 if __name__ == "__main__":
     os.system("stty sane")
+    cls()
     mainmenu()
