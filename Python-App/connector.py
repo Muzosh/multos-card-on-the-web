@@ -136,5 +136,6 @@ def listen():
 
 
 if __name__ == "__main__":
+    logger.debug("------------STARTING CONNECTOR------------")
     print("STARTING CONNECTOR...")
     listen()
