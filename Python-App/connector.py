@@ -100,7 +100,7 @@ def handle_request(s_conn: socket.socket, addr):
         return
 
     challenge = s_conn.recv(CHALLENGE_LEN)
-    logger.debug(f"Challenge received: {challenge}")
+    logger.debug(f"Challenge received: {list(challenge)}")
 
     card_conn.connect()
     card_conn.transmit(APDU_SELECT_APP())

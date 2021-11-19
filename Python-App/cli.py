@@ -96,7 +96,7 @@ class ConsoleCardConnectionObserver(CardConnectionObserver):
                 )
 
 
-# we request any type and wait for 10s for card insertion
+# request any type and wait for 10s for card insertion
 cardrequest = CardRequest(timeout=10, cardType=AnyCardType())
 cardservice = cardrequest.waitforcard()
 conn = cardservice.connection
@@ -178,7 +178,8 @@ def authenticate():
             print("Error!")
     else:
         print("Error!")
-        
+
+
 def flush_response():
     while True:
         le = input("How many bytes to get from card: ")
@@ -193,10 +194,9 @@ def flush_response():
             print(f"Response: {response}")
         else:
             print("Error!")
-            
+
         break
-    
-    
+
 
 def mainmenu():
     main_menu_title = (
