@@ -12,7 +12,7 @@ from smartcard.util import toHexString
 from smartcard.Exceptions import CardRequestTimeoutException
 
 # CONFIG
-HOST = "localhost"
+HOST = "192.168.255.59"
 PORT = 5050
 CHALLENGE_LEN = 52
 
@@ -95,7 +95,7 @@ def handle_request(s_conn: socket.socket, addr):
         card_conn = get_card_connection(addr)
     except CardRequestTimeoutException:
         logger.exception(f"Card probably not connected for {addr}!")
-        s_conn.send(False.to_bytes(1, byteorder='big'))
+        s_conn.send(False.to_bytes(1, byteorder="big"))
         s_conn.close()
         return
 
@@ -111,12 +111,13 @@ def handle_request(s_conn: socket.socket, addr):
             logger.error(f"Card returned non-OK code for {addr}")
         else:
             logger.debug(f"Card returned response {response}")
-            s_conn.send(True.to_bytes(1, byteorder='big'))
+            s_conn.send(True.to_bytes(1, byteorder="big"))
             s_conn.send(bytes(response))
     else:
         logger.error(f"Card returned non-OK code for {addr}")
-        
+
     logger.debug(f"Response successfully send to {addr}")
+
 
 def listen():
     logger.debug(f"Start listening on {HOST}:{PORT}")
