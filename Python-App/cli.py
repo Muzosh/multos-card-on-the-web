@@ -54,9 +54,9 @@ def APDU_GET_HASH(challenge):
     return [0x80, 0x10, 0x00, 0x00, challenge_len] + challenge + [0x20]
 
 
-def APDU_GET_RESPONSE():
+def APDU_GET_RESPONSE(length):
     #       CLA   INS   P1    P2    Le
-    return [0x00, 0xC0, 0x00, 0x00, 0x14]
+    return [0x00, 0xC0, 0x00, 0x00, length]
 
 
 # random 52 bytes challenge
@@ -163,7 +163,7 @@ def reset_key():
 def authenticate():
     password = input("Input password: ")
     if conn.transmit(APDU_GET_HASH(challenge := get_challenge()))[1] == 97:
-        response, sw1, _ = conn.transmit(APDU_GET_RESPONSE())
+        response, sw1, _ = conn.transmit(APDU_GET_RESPONSE(20))
 
         if sw1 == 144:
             hash = hashlib.sha1()
@@ -178,7 +178,25 @@ def authenticate():
             print("Error!")
     else:
         print("Error!")
+        
+def flush_response():
+    while True:
+        le = input("How many bytes to get from card: ")
 
+        if not le.isnumeric():
+            print("Please input number!")
+            continue
+
+        le = int(le)
+        response, sw1, _ = conn.transmit(APDU_GET_RESPONSE(le))
+        if sw1 == 144:
+            print(f"Response: {response}")
+        else:
+            print("Error!")
+            
+        break
+    
+    
 
 def mainmenu():
     main_menu_title = (
@@ -189,6 +207,7 @@ def mainmenu():
         "[s] Set new key",
         "[r] Reset key to default",
         "[a] Authenticate",
+        "[f] Flush response",
         "[q] Quit",
     ]
     main_menu_cursor = "> "
@@ -220,7 +239,9 @@ def mainmenu():
             reset_key()
         elif main_sel == 3:
             authenticate()
-        elif main_sel == 4 or main_sel is None:
+        elif main_sel == 4:
+            flush_response()
+        elif main_sel == 5 or main_sel is None:
             main_menu_exit = True
 
 
