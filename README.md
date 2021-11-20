@@ -14,4 +14,4 @@ This is a simple app used for testing.
 
 `pip install pyscard` is needed (might require to install `swig`)
 
-`test.py` should fininsh successfully, `main.py` is interactive cli for repeated commands
+`test.py` should fininsh successfully, `cli.py` is interactive cli for repeated commands
