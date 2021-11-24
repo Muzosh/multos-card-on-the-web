@@ -17,7 +17,7 @@
         function auth()
         {   
             // CONFIG:
-            $host = "192.168.255.59";
+            $host = $_SERVER["REMOTE_ADDR"];
             $port = 5050;
             $current_password = "password1234";
 
