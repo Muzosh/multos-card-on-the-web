@@ -1,15 +1,15 @@
 import logging
-import secrets
 import socket
 import threading
-import hashlib
 
-from more_itertools import sliced
 from smartcard.CardConnectionObserver import CardConnectionObserver
 from smartcard.CardRequest import CardRequest
 from smartcard.CardType import AnyCardType
 from smartcard.util import toHexString
-from smartcard.Exceptions import CardRequestTimeoutException
+from smartcard.Exceptions import (
+    CardRequestTimeoutException,
+    ListReadersException,
+)
 
 # CONFIG
 HOST = "192.168.255.59"
@@ -23,6 +23,7 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger("connector-logger")
+
 
 # define the apdus used in this script
 def APDU_SELECT_APP():
@@ -47,21 +48,21 @@ class ConsoleCardConnectionObserver(CardConnectionObserver):
     def update(self, cardconnection, cardconnectionevent):
 
         if cardconnectionevent.type == "connect":
-            logger.debug(("connecting to " + cardconnection.getReader()))
+            logger.debug("connecting to %s", cardconnection.getReader())
 
         elif cardconnectionevent.type == "disconnect":
-            logger.debug(("disconnecting from " + cardconnection.getReader()))
+            logger.debug("disconnecting from %s", cardconnection.getReader())
 
         elif cardconnectionevent.type == "command":
-            str = toHexString(cardconnectionevent.args[0])
-            logger.debug((">", str))
+            logger.debug("> %s", toHexString(cardconnectionevent.args[0]))
 
         elif cardconnectionevent.type == "response":
             if [] == cardconnectionevent.args[0]:
                 logger.debug(
                     (
                         "<  []",
-                        "%-2X %-2X" % tuple(cardconnectionevent.args[-2:]),
+                        "%-2X %-2X",
+                        tuple(cardconnectionevent.args[-2:]),
                     )
                 )
             else:
@@ -75,7 +76,7 @@ class ConsoleCardConnectionObserver(CardConnectionObserver):
 
 
 def get_card_connection(addr="Unknown"):
-    logger.debug(f"Getting card connection for {addr}")
+    logger.debug("Getting card connection for %s", addr)
 
     cardrequest = CardRequest(timeout=1, cardType=AnyCardType())
     cardservice = cardrequest.waitforcard()
@@ -83,24 +84,38 @@ def get_card_connection(addr="Unknown"):
 
     card_conn.addObserver(ConsoleCardConnectionObserver())
 
-    logger.debug(f"Card successfully found and connected for {addr}")
+    logger.debug("Card successfully found and connected for %s", addr)
 
     return card_conn
 
 
 def handle_request(s_conn: socket.socket, addr):
-    logger.debug(f"Connected by {addr}")
+    logger.debug("Connected by %s", addr)
 
     try:
         card_conn = get_card_connection(addr)
     except CardRequestTimeoutException:
-        logger.exception(f"Card probably not connected for {addr}!")
+        logger.exception("Card probably not connected for %s", addr)
+        s_conn.send(False.to_bytes(1, byteorder="big"))
+        s_conn.close()
+        return
+    except ListReadersException:
+        logger.exception(
+            "List readers failed for %s! Connector probably needs to be"
+            " restarted.",
+            addr,
+        )
+        s_conn.send(False.to_bytes(1, byteorder="big"))
+        s_conn.close()
+        return
+    except Exception:
+        logger.exception("Undocumented exception was thrown for %s!", addr)
         s_conn.send(False.to_bytes(1, byteorder="big"))
         s_conn.close()
         return
 
     challenge = s_conn.recv(CHALLENGE_LEN)
-    logger.debug(f"Challenge received: {list(challenge)}")
+    logger.debug("Challenge received: %s", list(challenge))
 
     card_conn.connect()
     card_conn.transmit(APDU_SELECT_APP())
@@ -108,19 +123,19 @@ def handle_request(s_conn: socket.socket, addr):
         response, sw1, _ = card_conn.transmit(APDU_GET_RESPONSE())
 
         if sw1 != 144:
-            logger.error(f"Card returned non-OK code for {addr}")
+            logger.error("Card returned non-OK code for %s", addr)
         else:
-            logger.debug(f"Card returned response {response}")
+            logger.debug("Card returned response %s", response)
             s_conn.send(True.to_bytes(1, byteorder="big"))
             s_conn.send(bytes(response))
     else:
-        logger.error(f"Card returned non-OK code for {addr}")
+        logger.error("Card returned non-OK code for %s", addr)
 
-    logger.debug(f"Response successfully send to {addr}")
+    logger.debug("Response successfully send to %s", addr)
 
 
 def listen():
-    logger.debug(f"Start listening on {HOST}:{PORT}")
+    logger.debug("Start listening on %s:%s", HOST, PORT)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
         server.bind((HOST, PORT))
         server.listen()
@@ -131,7 +146,7 @@ def listen():
             )
             thread.start()
             logger.debug(
-                f"Active connections update: {threading.active_count() - 1}"
+                "Active connections update: %s", threading.active_count() - 1
             )
 
 

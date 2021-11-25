@@ -29,9 +29,10 @@ def authenticate(password):
         response = client.recv(RESPONSE_LEN)
         response = list(response)
 
-        hash = hashlib.sha1()
-        hash.update(bytes(challenge + [ord(c) for c in password]))
-        result = list(hash.digest())
+        h = hashlib.sha1(
+            bytes(challenge + [ord(c) for c in password])
+        ).digest()
+        result = list(h)
 
         if response == result:
             print("YES - Authentication successfull!")
@@ -41,4 +42,3 @@ def authenticate(password):
 
 if __name__ == "__main__":
     authenticate(input("Input password: "))
-    pass
