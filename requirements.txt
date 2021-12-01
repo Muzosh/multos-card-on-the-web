@@ -1,0 +1,3 @@
+pyscard
+more-itertools
+simple-term-menu
