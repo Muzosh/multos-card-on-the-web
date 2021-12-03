@@ -17,7 +17,7 @@
         function auth()
         {   
             // CONFIG:
-            $host = $_SERVER["REMOTE_ADDR"];
+            $host = $_SERVER['REMOTE_ADDR'];
             $port = 5050;
             $current_password = "password1234";
 
@@ -34,7 +34,7 @@
                 $challenge = random_bytes(52);
 
                 // send challenge via socket
-                socket_send($socket, $challenge, 52, 0);
+                socket_write($socket, $challenge, 52);
 
                 // Read first byte, unpack it into array of integers and take first item
                 // (unpack indexing starts at 1)

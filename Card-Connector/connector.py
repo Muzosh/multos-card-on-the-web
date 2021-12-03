@@ -12,6 +12,7 @@ from smartcard.Exceptions import (
 )
 
 # CONFIG
+# Change HOST to your IP which you are using to connect to Nextcloud server
 HOST = "192.168.255.59"
 PORT = 5050
 CHALLENGE_LEN = 52

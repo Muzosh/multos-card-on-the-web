@@ -97,28 +97,29 @@ conn.addObserver(ConsoleCardConnectionObserver())
 # the observer will trace on the console
 conn.connect()
 
-# Select application
+print("Select application")
 response, sw1, sw2 = conn.transmit(SELECTAPP)
 
-# Reset key for testing
+print("Reset key for testing")
 response, sw1, sw2 = conn.transmit(RESET_KEY)
 
-# Get current key and ensure it's the same as default key
+print("Get current key and ensure it's the same as default key")
 response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
 assert response == default_key
 
-# Set new key, get current and ensure it's the same as newly set key
+print("Set new key, get current and ensure it's the same as newly set key")
 response, sw1, sw2 = conn.transmit(SET_KEY)
 response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
 assert response == new_key_to_set
 
-# Reset key to default and ensure it's the same as current key
+print("Reset key to default and ensure it's the same as current key")
 response, sw1, sw2 = conn.transmit(RESET_KEY)
 response, sw1, sw2 = conn.transmit(GET_CURRENT_KEY)
 assert response == default_key
 
 # First, try to obtain response with challenge, if sw1 is 97, it means there
 # are data in the buffer
+print("Trying challenge-response protocol")
 if conn.transmit(GET_HASH)[1] == 97:
     # we can obtain these data with GET_RESPONSE apdu
     response, sw1, sw2 = conn.transmit(GET_RESPONSE)
@@ -131,4 +132,4 @@ if conn.transmit(GET_HASH)[1] == 97:
     # compare response and result
     assert response == result
 
-print("Finished successfully!")
+print("All tasks finished successfully!")
