@@ -22,7 +22,7 @@
 #pragma attribute("dir", "61 0d 4f 04 f0 00 00 01 50 05 68 77 61 70 70")
 
 #define CLA_APP 0x80
-#define INS_GET_HASH 0x10
+#define INS_AUTHENTICATE 0x10
 #define INS_SET_KEY 0x20
 #define INS_RESET_KEY 0x30
 #define INS_GET_CURRENT_KEY 0x40
@@ -73,7 +73,7 @@ void main(void)
 
     switch (INS)
     {
-    case INS_GET_HASH:
+    case INS_AUTHENTICATE:
         if (!CheckCase(DATAIN_DATAOUT))
             ExitSW(ISO7816_SW_CONDITIONS_NOT_SATISFIED);
         if (Lc != CHALLENGE_SIZE)
