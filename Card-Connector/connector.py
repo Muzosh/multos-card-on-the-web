@@ -61,9 +61,9 @@ class ConsoleCardConnectionObserver(CardConnectionObserver):
             if [] == cardconnectionevent.args[0]:
                 logger.debug(
                     (
-                        "<  []",
-                        "%-2X %-2X",
-                        tuple(cardconnectionevent.args[-2:]),
+                        "<",
+                        "[]",
+                        "%-2X %-2X" % tuple(cardconnectionevent.args[-2:]),
                     )
                 )
             else:
