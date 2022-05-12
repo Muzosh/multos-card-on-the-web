@@ -1,4 +1,4 @@
-# nextcloud-with-smartcards
+# multos-card-nextcloud
 
 This is a sample proof-of-work project for expanding my skills in:
 
