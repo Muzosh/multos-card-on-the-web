@@ -1,6 +1,6 @@
 # nextcloud-with-smartcards
 
-This is a sample project for:
+This is a sample proof-of-work project for expanding my skills in:
 
 - MultOS card programming using SmartDeck (for libraries and Mel API) and MUtil (for application loading)
 - Python socket programming that allows local connector communicating with remote Nextcloud server
